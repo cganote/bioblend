@@ -93,6 +93,34 @@ class UserClient(Client):
         payload['password'] = password
         return Client._post(self, payload)
 
+    def create_local_user_mail(self, username, user_email):
+        """
+        Create a new Galaxy local user.
+
+        .. note::
+          For this method to work, the Galaxy instance must have the
+          ``allow_user_creation`` option set to ``True`` and
+          ``use_remote_user`` option set to ``False`` in the
+          ``config/galaxy.ini`` configuration file.
+
+        :type username: str
+        :param username: username of the user to be created
+
+        :type user_email: str
+        :param user_email: email of the user to be created
+
+        :type password: str
+        :param password: password of the user to be created
+
+        :rtype: dict
+        :return: a dictionary containing information about the created user
+        """
+        payload = {}
+        payload['username'] = username
+        payload['email'] = user_email
+        payload['sendmail'] = True
+        return Client._post(self, payload)
+
     def get_current_user(self):
         """
         Display information about the user associated with this Galaxy
